@@ -1,32 +1,30 @@
 from django.db import models
 
 
-class Agent(models.Model):
-    TYPE = [
-        ("referrer", "Referrer"),
-        ("broker", "Broker"),
-        ("engineer", "Engineer"),
-        ("hire-company", "Hire Company"),
-        ("panel-solicitor", "Panel Solicitor"),
-        ("repairer", "Repairer")
+class Claim(models.Model):
+    CLAIM_TYPE = [
+        ("rta", "RTA"),
+        ("slip-trip", "Slip/Trip"),
+        ("clinical-negligence", "Clinical Negligence"),
+        ("works-accident", "Works Accident"),
+        ("industrial-disease", "Industrial Disease"),
+        ("hire-only", "Hire Only")
     ]
 
-    STATUS = [
-        ("live", "Live"),
-        ("dead", "Dead"),
-        ("prospect", "Prospect")
+    CASE_STATUS = [
+        ("just-started", "Just started"),
+        ("accepted", "Accepted"),
+        ("rejected", "Rejected"),
+        ("dead-closed", "Dead/Closed")
     ]
 
-    agent_type = models.CharField(max_length=50, choices=TYPE)
-    name = models.CharField(max_length=255)
-    address = models.TextField()
-    post_code = models.CharField(max_length=16)
-    main_phone = models.CharField(max_length=20)
-    contact_phone = models.CharField(max_length=16)
-    fax = models.CharField(max_length=255)
-    email = models.EmailField()
-    status = models.CharField(max_length=50, choices=STATUS)
+    HANDLER = [
+        ("claims-department", "Claims Department")
+    ]
 
-    
-    def __str__(self):
-        return "{} {}".format(self.name, self.agent_type)
+    claim_type = models.CharField(max_length=50, choices=CLAIM_TYPE)
+    case_status = models.CharField(max_length=50, choices=CASE_STATUS)
+    handler = models.CharField(max_length=50, choices=HANDLER)
+    opened_date = models.DateTimeField(auto_now_add=True, verbose_name="File Opened Date")
+    closed_date = models.DateTimeField(verbose_name="File Closed Date")
+    opened_by = models.CharField(max_length=255, verbose_name="File Opened by")

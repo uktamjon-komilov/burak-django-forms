@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "cases",
+    "agents",
+    "vehicles"
 ]
 
 MIDDLEWARE = [
