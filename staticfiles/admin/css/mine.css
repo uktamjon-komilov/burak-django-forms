@@ -1,0 +1,7 @@
+.link-active{
+    background-color: rgb(66, 66, 107)!important;
+}
+
+input[name="_addanother"],input[name="_continue"],input[name="_saveasnew"]{
+    display: none;
+}

@@ -1,0 +1,30 @@
+{% extends 'admin/change_form.html' %}
+
+{% load i18n admin_urls %}
+
+{% block object-tools-items %}
+    <li>
+        <a href="{{ vehicle.own_link }}" class="">Vehicle Details</a>
+    </li>
+    <li>
+        <a href="{{ vehicle.hire_link }}" class="">Hire Details</a>
+    </li>
+    <li>
+        <a href="{{ vehicle.service_link }}" class="">Servicing & Vehicle costs</a>
+    </li>
+    <li>
+        <a href="{{ vehicle.supplier_link }}" class="">Supplier Details</a>
+    </li>
+    <li>
+        <a href="{{ vehicle.finance_link }}" class="">Lease/Finance Details</a>
+    </li>
+    <li>
+        <a href="{{ vehicle.sale_link }}" class="">Sale Details</a>
+    </li>
+
+    {% for licensing in vehicle.licensing_authority.all %}
+        <li>
+            <a href="/vehicles/licensingauthority/{{licensing.id}}/change/" class="" target="_blank">Licensing Authority {{forloop.counter}}</a>
+        </li>
+    {% endfor %}
+{% endblock %}
