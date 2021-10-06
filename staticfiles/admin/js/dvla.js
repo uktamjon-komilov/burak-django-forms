@@ -45,6 +45,8 @@ window.onload = () => {
       '#id_fuel_type option:contains("' + toTitleCase(data.fuelType) + '")'
     ).prop("selected", true);
     document.getElementById("id_make").value = data.make;
+    document.getElementById("id_cc").value = data.engineCapacity;
+    document.getElementById("id_mot_status").value = data.motStatus;
   };
 
   function getCookie(name) {

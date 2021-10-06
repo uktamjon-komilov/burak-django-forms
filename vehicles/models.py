@@ -175,6 +175,7 @@ class Vehicle(models.Model):
     model = models.CharField(max_length=255)
     color = models.CharField(max_length=255, verbose_name="Colour")
     cc = models.CharField(max_length=255, verbose_name="CC")
+    mot_status = models.CharField(max_length=255, default="")
     radio_code = models.CharField(max_length=255)
     callibration_no = models.CharField(max_length=255)
     number_of_doors = models.IntegerField()
@@ -184,7 +185,7 @@ class Vehicle(models.Model):
     insurance_group = models.CharField(max_length=255)
 
     is_licensed = models.BooleanField()
-    licensing_authority = models.ManyToManyField(LicensingAuthority, null=True, blank=True, related_name="vehicle")
+    licensing_authority = models.ManyToManyField(LicensingAuthority, blank=True, related_name="vehicle")
 
     hire_details = models.OneToOneField(Hire, on_delete=models.SET_NULL, null=True, related_name="vehicle")
     service_details = models.OneToOneField(Service, on_delete=models.SET_NULL, null=True, related_name="vehicle")
