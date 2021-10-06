@@ -24,7 +24,11 @@ class VehicleAdmin(admin.ModelAdmin):
     exclude = ["hire_details", "service_details", "supplier_details", "finance_details","sale_details"]
 
     class Media:
-        js = (static("admin/js/hide_attribute.js"),)
+        js = (
+            static("admin/js/hide_attribute.js"),
+            static("admin/js/dvla.js"),
+            """https://code.jquery.com/jquery-3.6.0.min.js"""
+        )
         css = {
             "all": (static("admin/css/mine.css"),)
         }

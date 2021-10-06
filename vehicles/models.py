@@ -157,6 +157,9 @@ class Vehicle(models.Model):
         ("diesel", "Diesel"),
         ("lpg", "LPG"),
         ("petrol", "Petrol"),
+        ("hybrid", "Hybrid"),
+        ("plug-in-hybrid", "Plug-In Hybrid"),
+        ("electric", "Electric"),
     ]
 
     cross_hire = models.BooleanField()
