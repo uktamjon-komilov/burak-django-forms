@@ -226,7 +226,7 @@ class Vehicle(models.Model):
     
 
     @property
-    def vehicle_link(self):
+    def own_link(self):
         return "/vehicles/vehicle/{}/change/".format(self.id)
 
     @property
