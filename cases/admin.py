@@ -13,6 +13,5 @@ class ClaimAdmin(admin.ModelAdmin):
     search_fields = ["claim_type", "case_status", "handler", "opened_by"]
 
 
-admin.site.unregister(User)
 admin.site.unregister(Group)
 admin.site.register(Claim, ClaimAdmin)
