@@ -77,6 +77,9 @@ class Service(models.Model):
     supplier_name = models.CharField(null=True, blank=True, max_length=128, help_text="Garage, shop etc.")
     misc_details = models.TextField(null=True, blank=True, help_text="20K service. Rear Indicator Bulb replacement")
 
+    last_recorded_mileage = models.FloatField(null=True, blank=True)
+    as_at = models.DateField(verbose_name="", null=True, blank=True)
+
 
 class Supplier(models.Model):
     name = models.CharField(null=True, blank=True, max_length=255)
@@ -163,7 +166,9 @@ class Vehicle(models.Model):
     VEHICLE_DEPOT = [
         ("all-depots", "All depots"),
         ("depot-1", "Depot 1"),
-        ("depot-2", "Depot 2")
+        ("depot-2", "Depot 2"),
+        ("571-cable-street", "571 Cable Street"),
+        ("cross-hire", "Cross Hire"),
     ]
 
     FUEL_TYPE = [
@@ -180,8 +185,6 @@ class Vehicle(models.Model):
     vehicle_status = models.CharField(max_length=50, choices=VEHICLE_STATUS)
     currently_reserved = models.BooleanField(verbose_name="Is vehicle currently reserved?")
     opened_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    last_recorded_mileage = models.FloatField()
-    as_at = models.DateField(verbose_name="")
 
     category = models.CharField(max_length=50, blank=True, null=True, choices=VEHICLE_CATEGORY, verbose_name="Vehicle category")
     sub_category = models.CharField(max_length=50, blank=True, null=True, choices=CARS_CATEGORY, verbose_name="Car category")
@@ -193,16 +196,16 @@ class Vehicle(models.Model):
     mot_status = models.CharField(max_length=255, default="")
     revenue_weight = models.CharField(max_length=255, default="", blank=True)
     type_approval = models.CharField(max_length=255, default="", blank=True)
-    radio_code = models.CharField(max_length=255)
-    vin = models.CharField(max_length=255, verbose_name="VIN")
-    number_of_doors = models.IntegerField()
+    radio_code = models.CharField(max_length=255, null=True, blank=True)
+    vin = models.CharField(max_length=255, verbose_name="VIN", null=True, blank=True)
+    number_of_doors = models.IntegerField(null=True, blank=True)
     fuel_type = models.CharField(max_length=20, choices=FUEL_TYPE)
     first_registration_date = models.DateField(null=True, blank=True)
     tax_expire_date = models.DateField(null=True, blank=True)
     tax_status = models.CharField(max_length=255, null=True, blank=True)
     last_v5c_issued = models.DateField(null=True, blank=True)
     wheel_plan = models.CharField(max_length=255, null=True, blank=True)
-    insurance_group = models.CharField(max_length=255)
+    insurance_group = models.CharField(max_length=255, null=True, blank=True)
 
     is_licensed = models.BooleanField()
     licensing_authority = models.ManyToManyField(LicensingAuthority, blank=True, related_name="vehicle")

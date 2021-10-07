@@ -18,9 +18,14 @@ class CustomChangeTemplate(admin.ModelAdmin):
             "all": (static("admin/css/mine.css"),)
         }
 
+        js = (
+            """https://code.jquery.com/jquery-3.6.0.min.js""",
+            static("admin/js/service.js")
+        )
+
 
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ["make", "model", "vehicle_status", "currently_reserved", "last_recorded_mileage", "category", "depot", "color", "cc", "fuel_type", "insurance_group"]
+    list_display = ["make", "model", "vehicle_status", "currently_reserved", "category", "depot", "color", "cc", "fuel_type", "insurance_group"]
     exclude = ["hire_details", "service_details", "supplier_details", "finance_details","sale_details"]
 
     class Media:
