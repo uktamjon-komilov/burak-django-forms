@@ -1,6 +1,8 @@
 from django.db import models
-from django.urls import reverse
-from django.utils.html import format_html
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class LicensingAuthority(models.Model):
@@ -157,15 +159,16 @@ class Vehicle(models.Model):
         ("diesel", "Diesel"),
         ("lpg", "LPG"),
         ("petrol", "Petrol"),
-        ("hybrid", "Hybrid"),
+        ("hybrid-electric", "Hybrid Electric"),
         ("plug-in-hybrid", "Plug-In Hybrid"),
-        ("electric", "Electric"),
+        ("electricity", "Electricity"),
     ]
+
 
     cross_hire = models.BooleanField()
     vehicle_status = models.CharField(max_length=50, choices=VEHICLE_STATUS)
     currently_reserved = models.BooleanField(verbose_name="Is vehicle currently reserved?")
-    opened_by = models.CharField(max_length=255)
+    opened_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     last_recorded_mileage = models.FloatField()
     as_at = models.DateTimeField(verbose_name="as at")
 
@@ -176,12 +179,17 @@ class Vehicle(models.Model):
     color = models.CharField(max_length=255, verbose_name="Colour")
     cc = models.CharField(max_length=255, verbose_name="CC")
     mot_status = models.CharField(max_length=255, default="")
+    revenue_weight = models.CharField(max_length=255, default="", blank=True)
+    type_approval = models.CharField(max_length=255, default="", blank=True)
     radio_code = models.CharField(max_length=255)
-    callibration_no = models.CharField(max_length=255)
+    vin = models.CharField(max_length=255, verbose_name="VIN")
     number_of_doors = models.IntegerField()
     fuel_type = models.CharField(max_length=20, choices=FUEL_TYPE)
-    first_registration = models.DateTimeField()
-    tax_date = models.DateTimeField()
+    first_registration_date = models.DateField(null=True, blank=True)
+    tax_expire_date = models.DateField(null=True, blank=True)
+    tax_status = models.CharField(max_length=255, null=True, blank=True)
+    last_v5c_issued = models.DateField(null=True, blank=True)
+    wheel_plan = models.CharField(max_length=255, null=True, blank=True)
     insurance_group = models.CharField(max_length=255)
 
     is_licensed = models.BooleanField()

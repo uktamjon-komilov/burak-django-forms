@@ -21,6 +21,5 @@ def fetch_dvla(request):
     }
 
     response = requests.request("POST", url, headers=headers, json = payload)
-    print(response.status_code)
 
     return JsonResponse(response.json())
