@@ -25,7 +25,6 @@ class VehicleAdmin(admin.ModelAdmin):
 
     class Media:
         js = (
-            static("admin/js/hide_attribute.js"),
             static("admin/js/dvla.js"),
             """https://code.jquery.com/jquery-3.6.0.min.js"""
         )

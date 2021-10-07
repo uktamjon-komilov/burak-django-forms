@@ -140,13 +140,24 @@ class Vehicle(models.Model):
     ]
 
     VEHICLE_CATEGORY = [
+        ("cars", "Cars"),
+        ("commercial", "Commercial"),
+        ("private-hire-taxi", "Private Hire/Taxi"),
+        ("motorcycle", "Motorcycle"),
+    ]
+
+    CARS_CATEGORY = [
         ("saloon", "Saloon"),
         ("purpose-built", "Purpose Built"),
-        ("mpv", "MPV"),
         ("minibus", "Minibus"),
         ("executive-e-class", "Executive E Class"),
         ("executive-s-class", "Executive S Class"),
         ("dual-control", "Dual Control"),
+        ("mpv", "MPV"),
+        ("4x4", "4x4"),
+        ("prestige", "Prestige"),
+        ("sports", "Sports"),
+        ("standard", "Standard"),
     ]
 
     VEHICLE_DEPOT = [
@@ -170,9 +181,10 @@ class Vehicle(models.Model):
     currently_reserved = models.BooleanField(verbose_name="Is vehicle currently reserved?")
     opened_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     last_recorded_mileage = models.FloatField()
-    as_at = models.DateTimeField(verbose_name="as at")
+    as_at = models.DateField(verbose_name="")
 
     category = models.CharField(max_length=50, blank=True, null=True, choices=VEHICLE_CATEGORY, verbose_name="Vehicle category")
+    sub_category = models.CharField(max_length=50, blank=True, null=True, choices=CARS_CATEGORY, verbose_name="Car category")
     depot = models.CharField(max_length=25, choices=VEHICLE_DEPOT, verbose_name="Depot/Branch", help_text="eg. DE51 BBY")
     make = models.CharField(max_length=255)
     model = models.CharField(max_length=255)

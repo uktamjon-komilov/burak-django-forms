@@ -117,4 +117,31 @@ window.onload = () => {
       select.options[i].selected = true;
     }
   }
+
+  const categorySelect = document.getElementById("id_category");
+  const subCategorySelect = document.getElementById("id_sub_category");
+
+  for (let i = 0; i < subCategorySelect.children.length; i++) {
+    if (i > 7) {
+      subCategorySelect.children[i].style.display = "none";
+      console.log(subCategorySelect.children[i]);
+    }
+  }
+
+  categorySelect.addEventListener("change", () => {
+    if (categorySelect.options[categorySelect.selectedIndex].value == "cars") {
+      for (let i = 0; i < subCategorySelect.children.length; i++) {
+        if (i > 7) {
+          console.log(subCategorySelect.children[i]);
+          subCategorySelect.children[i].style.display = "unset";
+        }
+      }
+    } else {
+      for (let i = 0; i < subCategorySelect.children.length; i++) {
+        if (i > 7) {
+          subCategorySelect.children[i].style.display = "none";
+        }
+      }
+    }
+  });
 };
