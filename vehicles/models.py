@@ -233,7 +233,7 @@ class Vehicle(models.Model):
 
         super(Vehicle, self).save(*args, **kwargs)
         if not self.is_licensed:
-            self.licensing_authority = None
+            self.licensing_authority.clear()
         super(Vehicle, self).save(*args, **kwargs)
     
 
