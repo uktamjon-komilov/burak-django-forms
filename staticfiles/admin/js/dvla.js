@@ -1,10 +1,13 @@
 window.onload = () => {
+  var vrmField = document.querySelector(".form-row.field-vehicle_dvla_number");
+  vrmField.remove();
+
   const fieldsSet = document.querySelector(".module.aligned");
   const searchBox = `
 <div class="form-row field-check_vehicle">
     <div style="display: flex; gap: 10px;">
-        <label for="vehicle_dvla_number">Vehicle Registration Mark:</label>
-        <input type="text" value="" id="vehicle_dvla_number">
+        <label for="id_vehicle_dvla_number">Vehicle Registration Mark:</label>
+        <input type="text" name="vehicle_dvla_number" value="" id="id_vehicle_dvla_number">
         <input type="button" value="Check" class="default" id="check_vehicle">
     </div>
 </div>
@@ -13,8 +16,23 @@ window.onload = () => {
   const fieldHTML = fieldsSet.innerHTML;
   fieldsSet.innerHTML = searchBox + fieldHTML;
 
+  var pathname = window.location.pathname;
+  const vehicleId = pathname.split("/")[3];
+  fetch("/fetch_dvla/vec/", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify({
+      "vec": vehicleId
+    })
+  }).then(res => res.json())
+  .then((data) => {
+    document.getElementById("id_vehicle_dvla_number").value = data.value;
+  })
+
   const checkBtn = document.getElementById("check_vehicle");
-  const dvlaNumber = document.getElementById("vehicle_dvla_number");
+  const dvlaNumber = document.getElementById("id_vehicle_dvla_number");
   checkBtn.addEventListener("click", () => {
     number = dvlaNumber.value;
     console.log(number);
@@ -118,30 +136,67 @@ window.onload = () => {
     }
   }
 
-  const categorySelect = document.getElementById("id_category");
-  const subCategorySelect = document.getElementById("id_sub_category");
+  const subCatDiv = document.querySelector(".form-row.field-sub_category");
+  const miniSubCatDiv = document.querySelector(".form-row.field-inner_sub_category");
+  console.log(subCatDiv);
 
-  for (let i = 0; i < subCategorySelect.children.length; i++) {
-    if (i > 7) {
-      subCategorySelect.children[i].style.display = "none";
-      console.log(subCategorySelect.children[i]);
-    }
-  }
+  subCatDiv.children[0].innerHTML = `
+    <label for="id_sub_category">Subcategory:</label>
+    <select name="sub_category" id="id_sub_category">
+      <option value="" selected="">---------</option>
+    </select>
+  `;
+  miniSubCatDiv.children[0].innerHTML = `
+    <label for="id_inner_sub_category">Inner subcategory:</label>
+    <select name="inner_sub_category" id="id_inner_sub_category">
+      <option value="" selected="">---------</option>
+    </select>
+  `;
 
-  categorySelect.addEventListener("change", () => {
-    if (categorySelect.options[categorySelect.selectedIndex].value == "cars") {
-      for (let i = 0; i < subCategorySelect.children.length; i++) {
-        if (i > 7) {
-          console.log(subCategorySelect.children[i]);
-          subCategorySelect.children[i].style.display = "unset";
-        }
-      }
-    } else {
-      for (let i = 0; i < subCategorySelect.children.length; i++) {
-        if (i > 7) {
-          subCategorySelect.children[i].style.display = "none";
-        }
-      }
-    }
+  const cat = document.getElementById("id_category");
+  const sub = document.getElementById("id_sub_category");
+  const inner = document.getElementById("id_inner_sub_category");
+
+  cat.addEventListener("change", () => {
+    const catValue = cat.options[cat.selectedIndex].value;
+    fetch("/fetch_dvla/sub/", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        "cat": catValue
+      })
+    })
+    .then(res => res.json())
+    .then((data) => {
+      sub.innerHTML = `<option value="" selected="">---------</option>`;
+      data.forEach((item) => {
+        sub.innerHTML += `<option value="${item}">${item}</option>`;
+      });
+    });
   });
+
+  sub.addEventListener("change", () => {
+    const catValue = cat.options[cat.selectedIndex].value;
+    const subValue = sub.options[sub.selectedIndex].value;
+
+    fetch("/fetch_dvla/mini/", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        cat: catValue,
+        sub: subValue,
+      })
+    })
+    .then(res => res.json())
+    .then((data) => {
+      inner.innerHTML = `<option value="" selected="">---------</option>`;
+      data.forEach((item) => {
+        inner.innerHTML += `<option value="${item}">${item}</option>`;
+      });
+    })
+  })
 };

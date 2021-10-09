@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from .category import CATEGORY
 
 
 User = get_user_model()
@@ -143,24 +144,7 @@ class Vehicle(models.Model):
     ]
 
     VEHICLE_CATEGORY = [
-        ("cars", "Cars"),
-        ("commercial", "Commercial"),
-        ("private-hire-taxi", "Private Hire/Taxi"),
-        ("motorcycle", "Motorcycle"),
-    ]
-
-    CARS_CATEGORY = [
-        ("saloon", "Saloon"),
-        ("purpose-built", "Purpose Built"),
-        ("minibus", "Minibus"),
-        ("executive-e-class", "Executive E Class"),
-        ("executive-s-class", "Executive S Class"),
-        ("dual-control", "Dual Control"),
-        ("mpv", "MPV"),
-        ("4x4", "4x4"),
-        ("prestige", "Prestige"),
-        ("sports", "Sports"),
-        ("standard", "Standard"),
+        (cat, cat) for cat in CATEGORY.keys()
     ]
 
     VEHICLE_DEPOT = [
@@ -181,13 +165,15 @@ class Vehicle(models.Model):
     ]
 
 
+    vehicle_dvla_number = models.CharField(max_length=255, null=True, blank=True)
     cross_hire = models.BooleanField()
     vehicle_status = models.CharField(max_length=50, choices=VEHICLE_STATUS)
     currently_reserved = models.BooleanField(verbose_name="Is vehicle currently reserved?")
     opened_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
-    category = models.CharField(max_length=50, blank=True, null=True, choices=VEHICLE_CATEGORY, verbose_name="Vehicle category")
-    sub_category = models.CharField(max_length=50, blank=True, null=True, choices=CARS_CATEGORY, verbose_name="Car category")
+    category = models.CharField(max_length=255, blank=True, null=True, choices=VEHICLE_CATEGORY, verbose_name="Vehicle category")
+    sub_category = models.CharField(max_length=255, blank=True, null=True, verbose_name="Subcategory")
+    inner_sub_category = models.CharField(max_length=255, blank=True, null=True, verbose_name="Inner subcategory")
     depot = models.CharField(max_length=25, choices=VEHICLE_DEPOT, verbose_name="Depot/Branch", help_text="eg. DE51 BBY")
     make = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
