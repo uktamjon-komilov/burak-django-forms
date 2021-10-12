@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from multiselectfield import MultiSelectField
+
 from .category import CATEGORY
 
 
@@ -164,6 +166,13 @@ class Vehicle(models.Model):
         ("electricity", "Electricity"),
     ]
 
+    INS_COVER = ((True, "Yes"), (False, "No"))
+
+    TRANSMISSION = [
+        ("automatic", "AUTOMATIC"),
+        ("manual", "MANUAL")
+    ]
+
 
     vehicle_dvla_number = models.CharField(max_length=255, null=True, blank=True)
     cross_hire = models.BooleanField()
@@ -172,8 +181,8 @@ class Vehicle(models.Model):
     opened_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     category = models.CharField(max_length=255, blank=True, null=True, choices=VEHICLE_CATEGORY, verbose_name="Vehicle category")
-    sub_category = models.CharField(max_length=255, blank=True, null=True, verbose_name="Subcategory")
-    inner_sub_category = models.CharField(max_length=255, blank=True, null=True, verbose_name="Inner subcategory")
+    sub_category = models.CharField(max_length=255, blank=True, null=True, verbose_name="Vehicle Type Category")
+    inner_sub_category = models.CharField(max_length=255, blank=True, null=True, verbose_name="GTA Group Category")
     depot = models.CharField(max_length=25, choices=VEHICLE_DEPOT, verbose_name="Depot/Branch", help_text="eg. DE51 BBY")
     make = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
@@ -191,7 +200,11 @@ class Vehicle(models.Model):
     tax_status = models.CharField(max_length=255, null=True, blank=True)
     last_v5c_issued = models.DateField(null=True, blank=True)
     wheel_plan = models.CharField(max_length=255, null=True, blank=True)
+
+    insurance_cover = models.BooleanField(default=False, choices=INS_COVER)
     insurance_group = models.CharField(max_length=255, null=True, blank=True)
+
+    transmission = MultiSelectField(choices=TRANSMISSION)
 
     is_licensed = models.BooleanField()
     licensing_authority = models.ManyToManyField(LicensingAuthority, blank=True, related_name="vehicle")

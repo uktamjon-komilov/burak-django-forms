@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.templatetags.static import static
+from django.utils.html import mark_safe
 
 from .models import *
 
@@ -25,8 +26,13 @@ class CustomChangeTemplate(admin.ModelAdmin):
 
 
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ["make", "model", "vehicle_status", "currently_reserved", "category", "depot", "color", "cc", "fuel_type", "insurance_group"]
+    list_display = ["vrm", "make", "model", "vehicle_status", "currently_reserved", "category", "inner_sub_category", "depot", "cc", "fuel_type", "insurance_cover"]
     exclude = ["hire_details", "service_details", "supplier_details", "finance_details","sale_details"]
+    search_fields = ["vehicle_dvla_number", "make", "model", "vehicle_status", "currently_reserved"]
+
+    def vrm(self, obj):
+        return obj.vehicle_dvla_number
+    vrm.short_description = "VRM"
 
     class Media:
         js = (
