@@ -141,13 +141,13 @@ window.onload = () => {
   console.log(subCatDiv);
 
   subCatDiv.children[0].innerHTML = `
-    <label for="id_sub_category">Subcategory:</label>
+    <label for="id_sub_category">Vehicle Type Category:</label>
     <select name="sub_category" id="id_sub_category">
       <option value="" selected="">---------</option>
     </select>
   `;
   miniSubCatDiv.children[0].innerHTML = `
-    <label for="id_inner_sub_category">Inner subcategory:</label>
+    <label for="id_inner_sub_category">GTA Group Category:</label>
     <select name="inner_sub_category" id="id_inner_sub_category">
       <option value="" selected="">---------</option>
     </select>
