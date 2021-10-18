@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.templatetags.static import static
-from django.utils.html import mark_safe
 
 from .models import *
 
